@@ -26,12 +26,13 @@ liste = {   'Iphone 14' :       [54.1, 44.9, 1019],     #128
 Fonction pour créer un fichier texte
 '''
 def txt(texte, n=0) :
+    nom = 'smartphones '+str(n)+'.txt'
     
-    if os.path.isfile('smartphones '+str(n)+'.txt'):
-        txt(texte, n+1)
+    if not os.path.isfile(nom) :
+        with open(nom, 'w') as fichier:
+            fichier.write(texte)
     
-    with open('smartphones '+str(n)+'.txt', 'w') as fichier:
-        fichier.write(texte)
+    else : txt(texte, n+1)
 
 
 '''
@@ -78,19 +79,19 @@ for i in rentabilite:
 '''
 Affichage du prix par an
 '''
-texte+='\n\n\nPRIX 1 AN :\n'
-    
+texte+='\n\n\nPRIX SUR 1 AN :\n'
+classement = 1
 for i in prix_annuel:
     
-    texte+=str(i[0])+str((20-len(i[0]))*' ')+str(f'({i[1]}€)\n')
-
+    texte+=str(classement)+str((3-len(str(classement)))*' ')+str('  -   ')+str(i[0])+str((20-len(i[0]))*' ')+str(f'({i[1]}€)\n')
+    classement += 1
 
 
 '''
 Affichage du score total (classement prix et rentabilité)
 '''
-texte+='\n\n\nTOTAL PRIX/RENTABILITE :\n'
-    
+texte+='\n\n\nTOTAL PRIX/RENTABILITE :\n(plus le coût est faible, plus le deal est intéressant)\n'
+
 total = {}
 for i in range(len(rentabilite)) :
     temp = i+1
@@ -100,10 +101,11 @@ for i in range(len(rentabilite)) :
     total[rentabilite[i][0]] = temp
     
 total = sorted(total.items(), key=lambda x:x[1])
-
+classement = 1
 for i in total:
     
-    texte+=str(i[0])+str((20-len(i[0]))*' ')+str(f'(coût de {i[1]})\n')
+    texte+=str(classement)+str((3-len(str(classement)))*' ')+str('  -   ')+str(i[0])+str((20-len(i[0]))*' ')+str(f'(coût de {i[1]})\n')
+    classement += 1
     
 texte+='\n\n\n\nMa page Github : https://github.com/bosy0'
 print(texte)
