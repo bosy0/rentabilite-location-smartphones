@@ -48,11 +48,13 @@ def txt(texte, n=0) :
 Calculs
 '''
 rentabilite = {}
+prix_annee_1 = {}
 prix_annuel = {}
 
 # Création de suites arithmétiques
 for i in liste :
-    x = round(liste[i][0] + 12*liste[i][1])
+    x1 = round(liste[i][0] + 12*liste[i][1])
+    x2 = round(12*liste[i][1])
     u = liste[i][0]
     n = 0 # Nombre de mois
     
@@ -65,11 +67,13 @@ for i in liste :
     #print('  - Prix : ', x)
     
     rentabilite[i] = n
-    prix_annuel[i] = x
+    prix_annee_1[i] = x1
+    prix_annuel[i] = x2
 
 # On trie les disctionnaires
-rentabilite = sorted(rentabilite.items(), key=lambda x:x[1], reverse=True)
-prix_annuel = sorted(prix_annuel.items(), key=lambda x:x[1])
+rentabilite  = sorted(rentabilite.items(), key=lambda x:x[1], reverse=True)
+prix_annee_1 = sorted(prix_annee_1.items(), key=lambda x:x[1])
+prix_annuel  = sorted(prix_annuel.items(), key=lambda x:x[1])
 
 
 
@@ -86,6 +90,18 @@ for i in rentabilite:
     
 
 '''
+Affichage du prix la première année
+'''
+texte+='\n\n\nPRIX PREMIERE ANNEE :\n'
+classement = 1
+for i in prix_annee_1:
+    
+    texte+=str(classement)+str((3-len(str(classement)))*' ')+str('  -   ')+str(i[0])+str((40-len(i[0]))*' ')+str(f'({i[1]}€)\n')
+    classement += 1
+    
+    
+    
+'''
 Affichage du prix par an
 '''
 texte+='\n\n\nPRIX SUR 1 AN :\n'
@@ -96,16 +112,17 @@ for i in prix_annuel:
     classement += 1
 
 
+
 '''
 Affichage du score total (classement prix et rentabilité)
 '''
-texte+='\n\n\nTOTAL PRIX/RENTABILITE :\n(plus le coût est faible, plus le deal est intéressant)\n'
+texte+='\n\n\nTOTAL PRIX/RENTABILITE :\n(plus le coût est faible, plus le deal est intéressant sur 1 an)\n'
 
 total = {}
 for i in range(len(rentabilite)) :
     temp = i+1
-    for k in range(len(prix_annuel)) :
-        if rentabilite[i][0] == prix_annuel[k][0] :
+    for k in range(len(prix_annee_1)) :
+        if rentabilite[i][0] == prix_annee_1[k][0] :
             temp += k+1
     total[rentabilite[i][0]] = temp
     
@@ -116,6 +133,6 @@ for i in total:
     texte+=str(classement)+str((3-len(str(classement)))*' ')+str('  -   ')+str(i[0])+str((40-len(i[0]))*' ')+str(f'(coût de {i[1]})\n')
     classement += 1
     
-texte+='\n\n\n\nMa page Github : https://github.com/bosy0'
+texte+='\n\n\n\n"____" signifie le prix actuel.\n\nMa page Github : https://github.com/bosy0'
 print(texte)
 txt(texte)
